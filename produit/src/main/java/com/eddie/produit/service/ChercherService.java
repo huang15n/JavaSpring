@@ -1,6 +1,7 @@
 package com.eddie.produit.service;
 
 
+import com.eddie.produit.DTO.ProduitDTO;
 import com.eddie.produit.contrat.Chercher;
 import com.eddie.produit.modele.Produit;
 import com.eddie.produit.referentielle.ProduitReferentielle;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ChercherService implements Chercher<Void, List<Produit>> {
+public class ChercherService implements Chercher<Void, List<ProduitDTO>> {
 
     private final ProduitReferentielle produitReferentielle;
 
@@ -21,10 +22,13 @@ public class ChercherService implements Chercher<Void, List<Produit>> {
         this.produitReferentielle = produitReferentielle;
     }
 
+
+
     @Override
-    public ResponseEntity<List<Produit>> executer() {
-        List<Produit> produits =this.produitReferentielle.findAll();
-        return ResponseEntity.status(HttpStatus.OK).body(produits);
+    public ResponseEntity<List<ProduitDTO>> executer() {
+        List<Produit> produits = this.produitReferentielle.findAll();
+        List<ProduitDTO> produitDTOs = produits.stream().map(ProduitDTO::new).toList();
+        return ResponseEntity.status(HttpStatus.OK).body(produitDTOs);
 
     }
 }
