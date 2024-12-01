@@ -7,6 +7,7 @@ import com.eddie.produit.exception.ProduitIntrouveException;
 import com.eddie.produit.modele.Produit;
 import com.eddie.produit.modele.ProduitAjouterCommande;
 import com.eddie.produit.referentielle.ProduitReferentielle;
+import com.eddie.produit.validateur.ProduitValidateur;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class ModifierService implements Commande<ProduitAjouterCommande, Produit
 
         if(produitOptionel.isPresent()){
             Produit produit = produitAjouterCommande.getProduit();
+            ProduitValidateur.executer(produit);
             produit.setId(produitAjouterCommande.getId());
             produitReferentielle.save(produit);
             return ResponseEntity.ok(new ProduitDTO(produit));
