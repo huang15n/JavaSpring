@@ -26,15 +26,18 @@ public class ProduitControlleur {
     private final SupprimerService supprimerService;
     private final AjouterService ajouterService;
     private final ChercherUnArticleService chercherUnArticleService;
+   private final ChercherProduitService chercherProduitService;
 
-
-    public ProduitControlleur(ChercherService chercherService, ModifierService modifierService, SupprimerService supprimerService, AjouterService ajouterService, ChercherUnArticleService chercherUnArticleService) {
+    public ProduitControlleur(ChercherService chercherService, ModifierService modifierService, SupprimerService supprimerService, AjouterService ajouterService, ChercherUnArticleService chercherUnArticleService, ChercherProduitService chercherProduitService) {
         this.chercherService = chercherService;
         this.modifierService = modifierService;
         this.supprimerService = supprimerService;
         this.ajouterService = ajouterService;
         this.chercherUnArticleService = chercherUnArticleService;
+        this.chercherProduitService = chercherProduitService;
     }
+
+
 
     @GetMapping("/produits")
     public ResponseEntity<List<ProduitDTO>> rechercher(){
@@ -59,6 +62,12 @@ public class ProduitControlleur {
     @DeleteMapping("/produit/{id}")
     public ResponseEntity<Void> supprimer(@PathVariable Integer id){
         return this.supprimerService.executer(id);
+    }
+
+
+    @GetMapping("/produits/chercher")
+    public ResponseEntity<List<ProduitDTO>> chercherProduitParNom(@RequestParam String nom){
+        return chercherProduitService.executer(nom);
     }
 
 //    @ExceptionHandler(ProduitIntrouveException.class)
